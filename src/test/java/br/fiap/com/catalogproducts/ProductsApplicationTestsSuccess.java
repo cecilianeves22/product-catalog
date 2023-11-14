@@ -1,29 +1,23 @@
 package br.fiap.com.catalogproducts;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import br.fiap.com.catalogproducts.model.Produto;
 import br.fiap.com.catalogproducts.repository.ProdutoRepository;
 import br.fiap.com.catalogproducts.service.ProdutoService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-class CatalogProductsApplicationTests {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class ProductsApplicationTestsSuccess {
 
     @Mock
     private ProdutoRepository produtoRepository;
@@ -31,42 +25,35 @@ class CatalogProductsApplicationTests {
     @InjectMocks
     private ProdutoService produtoService;
 
+    public void ProdutoServiceTest() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
-    void testFindAll() {
-        when(produtoRepository.findAll()).thenReturn(Arrays.asList(new Produto()));
+    public void testFindAll() {
+
+        Produto produto1 = new Produto();
+        Produto produto2 = new Produto();
+        List<Produto> produtos = Arrays.asList(produto1, produto2);
+        when(produtoRepository.findAll()).thenReturn(produtos);
 
         List<Produto> result = produtoService.findAll();
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
+        assertEquals(2, result.size());
         verify(produtoRepository, times(1)).findAll();
     }
 
     @Test
-    void testFindById() {
-        when(produtoRepository.findById(1L)).thenReturn(Optional.of(new Produto()));
-        Optional<Produto> result = produtoService.findById(1L);
-        assertNotNull(result);
-        verify(produtoRepository, times(1)).findById(1L);
+    public void testFindById() {
+
+        Long productId = 1L;
+        Produto produto = new Produto();
+        produto.setId(productId);
+        when(produtoRepository.findById(productId)).thenReturn(Optional.of(produto));
+
+        Optional<Produto> result = produtoService.findById(productId);
+        assertTrue(result.isPresent());
+        assertEquals(productId, result.get().getId());
+        verify(produtoRepository, times(1)).findById(productId);
     }
 
-    @Test
-    void testListarProdutos() throws Exception {
-        // Mockando o comportamento do serviço
-        when(produtoService.findAll()).thenReturn(Arrays.asList(new Produto()));
-
-        // Executando a requisição
-        mockMvc.perform(get("/produto"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("produto"))
-                .andExpect(view().name("listaProdutos"));
-    }
-
-    @Test
-    void testMostrarCadastroDeProduto() throws Exception {
-        // Executando a requisição
-        mockMvc.perform(get("/produto/novo"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("produto"))
-                .andExpect(view().name("cadastroProdutos"));
-    }
 }

@@ -1,29 +1,38 @@
-<!-- src/main/resources/templates/adicionarProduto.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title th:text="#{produto.criar}">Adicionar Produto</title>
+  <title th:text="${produto.id} ? #{label.editProduct} : #{label.addProduct}">Add/Edit Product</title>
 </head>
 <body>
-<h2 th:text="#{produto.criar}">Adicionar Produto</h2>
+<div>
+  <a href="?lang=en">English</a> |
+  <a href="?lang=pt_BR">Português</a>
+</div>
 
-<form th:action="@{/produtos/adicionar}" th:object="${produto}" method="post">
-  <label for="nome" th:text="#{produto.nome}">Nome:</label>
-  <input type="text" id="nome" th:field="*{nome}" />
-  <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
-
-  <label for="descricao" th:text="#{produto.descricao}">Descrição:</label>
-  <input type="text" id="descricao" th:field="*{descricao}" />
-  <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></span>
-
-  <label for="preco" th:text="#{produto.preco}">Preço:</label>
-  <input type="text" id="preco" th:field="*{preco}" />
-  <span th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></span>
-
-  <button type="submit" th:text="#{produto.criar}">Adicionar</button>
+<h1 th:text="${produto.id} ? #{label.editProduct} : #{label.addProduct}">Add/Edit Product</h1>
+<form th:action="@{/produto}" th:object="${produto}" method="post">
+  <!-- Campos do formulário -->
+  <div>
+    <label for="nome" th:text="#{label.nome}">Name</label>
+    <input type="text" id="nome" th:field="*{nome}" />
+  </div>
+  <div>
+    <label for="descricao" th:text="#{label.descricao}">Description</label>
+    <input type="text" id="descricao" th:field="*{descricao}" />
+  </div>
+  <div>
+    <label for="preco" th:text="#{label.preco}">Price</label>
+    <input type="number" id="preco" th:field="*{preco}" />
+  </div>
+  <div>
+    <label for="dataCadastro" th:text="#{label.dataCadastro}">Register Date</label>
+    <input type="date" id="dataCadastro" th:field="*{dataCadastro}" />
+  </div>
+  <div>
+    <button type="submit" th:text="#{label.save}">Save</button>
+    <a th:href="@{/produto}" th:text="#{label.cancel}">Cancel</a>
+  </div>
 </form>
-
-<p><a th:href="@{/produtos/listar}" th:text="#{produto.listar}">Voltar para a lista de produtos</a></p>
 </body>
 </html>

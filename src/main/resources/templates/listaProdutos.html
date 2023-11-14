@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{produto.listar}">Listar Produtos</title>
+    <meta charset="UTF-8"/>
+    <title th:text="#{label.productList}">Product List</title>
 </head>
 <body>
-<h2 th:text="#{produto.listar}">Listar Produtos</h2>
-
-<table border="1">
+<h1 th:text="#{label.productList}">Product List</h1>
+<div>
+    <a th:href="@{/produto/novo}" th:text="#{label.addNewProduct}">Add New Product</a>
+</div>
+<table>
     <thead>
     <tr>
-        <th th:text="#{produto.nome}">Nome</th>
-        <th th:text="#{produto.descricao}">Descrição</th>
-        <th th:text="#{produto.preco}">Preço</th>
-        <th th:text="#{produto.dataCadastro}">Data de Cadastro</th>
-        <th colspan="2">Ações</th>
+        <th th:text="#{label.id}">ID</th>
+        <th th:text="#{label.nome}">Name</th>
+        <th th:text="#{label.descricao}">Description</th>
+        <th th:text="#{label.preco}">Price</th>
+        <td th:text="${label.dataCadastro}">Date</td>
+        <th th:text="#{label.actions}">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <!-- Loop through products and display them -->
-    <tr th:each="produto : ${produtos}">
-        <td th:text="${produto.nome}">Nome do Produto</td>
-        <td th:text="${produto.descricao}">Descrição do Produto</td>
-        <td th:text="${#numbers.formatCurrency(produto.preco, 'BRL')}">Preço do Produto</td>
-        <td th:text="${#dates.format(produto.dataCadastro, 'dd/MM/yyyy HH:mm')}">Data de Cadastro</td>
-        <td><a th:href="@{/editar/{id}(id=${produto.id})}" th:text="#{produto.editar}">Editar</a></td>
-        <td><a th:href="@{/deletar/{id}(id=${produto.id})}" th:text="#{produto.deletar}">Deletar</a></td>
+    <tr th:each="produto : ${produto}">
+        <td th:text="${produto.id}">ID</td>
+        <td th:text="${produto.nome}">Name</td>
+        <td th:text="${produto.descricao}">Description</td>
+        <td th:text="${produto.preco}">Price</td>
+        <td th:text="${produto.dataCadastro}">Date</td>
+        <td>
+            <a th:href="@{/produto/editar/{id}(id=${produto.id})}" th:text="#{label.edit}">Edit</a>
+            <a th:href="@{/produto/deletar/{id}(id=${produto.id})}" th:text="#{label.delete}">Delete</a>
+        </td>
     </tr>
     </tbody>
 </table>
-
-<p><a th:href="@{/adicionar}" th:text="#{produto.criar}">Adicionar Produto</a></p>
 </body>
 </html>

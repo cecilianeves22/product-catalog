@@ -1,17 +1,17 @@
 package br.fiap.com.catalogproducts.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Date;
 
 
 @Entity
-public class Produtos {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Produtos {
     private String descricao;
     @Positive(message = "{Produto.preco.positive}")
     private Double preco;
-    private Date dataValidade;
+    private Date dataCadastro;
 
 
     public Long getId() {
@@ -57,11 +57,11 @@ public class Produtos {
         this.preco = preco;
     }
 
-    public Date getDataValidade() {
-        return dataValidade;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
-    public void setDataValidade(Date dataValidade) {
-        this.dataValidade = dataValidade;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 }
